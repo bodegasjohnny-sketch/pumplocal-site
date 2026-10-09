@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PumpLocal · Offline gas-station assistant · AppBuildersPH Hackathon 2026</title>
+<meta name="description" content="PumpLocal is an offline gas-station assistant: on-device OCR reads pump totalizers and receipts, a local Gemma model answers in Tagalog or English, and fuel and cash gaps get checked even with Wi-Fi off.">
+<meta property="og:title" content="PumpLocal: When the power or the internet stops, the work doesn't.">
+<meta property="og:description" content="Offline gas-station assistant for JCB Gas Station, Sto. Niño, South Cotabato. AppBuildersPH Hackathon 2026 entry by Johnny Bodegas.">
+<meta property="og:image" content="img/shots/flow_2b_pump_verdict_view.png">
+<meta name="theme-color" content="#0f2747">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">⛽ Pump<b>Local</b></a>
+    <ul>
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#screens">Screens</a></li>
+      <li><a href="#slides">Slides</a></li>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#honest">Honest notes</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">AppBuildersPH Hackathon 2026 · Theme: Local AI</span>
+    <h1>Pump<b>Local</b></h1>
+    <p class="tag">When the power or the internet stops, the work doesn't.</p>
+    <p class="lede">An offline assistant for a small Filipino gas station. It reads pump totalizer photos and receipts, checks fuel and cash at shift end, and answers staff questions in Tagalog or English. It runs on a MacBook Air with Wi-Fi off.</p>
+    <div class="local-note" role="note">
+      <span class="ico" aria-hidden="true">💻</span>
+      <div><strong>The app runs locally on the station's computer. This page is the showcase.</strong>
+      There is no hosted version to log into. The screenshots, slides and demo video below show what it does.</div>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/bodegasjohnny-sketch/pumplocal">View the code on GitHub</a>
+      <a class="btn ghost" href="slides.html">Open the slides</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">~2 s</div><div class="l">Apple Vision OCR reads a photo on-device</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">internet needed to record and check a shift</div></div>
+      <div class="stat"><div class="n">2.57 L</div><div class="l">unaccounted fuel found on the demo pump check</div></div>
+      <div class="stat"><div class="n">₱50</div><div class="l">cash short found on the demo closing slip</div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="problem" class="problem">
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p class="sub">JCB Gas Station is in Sto. Niño, South Cotabato. In the province, brownouts and weak internet are part of the week, and cloud apps stop working when either one hits.</p>
+    <div class="grid3">
+      <div class="card"><div class="ico">🔌</div><h3>Brownouts</h3><p>When the power goes out, the router goes with it. Cloud tools that need a connection can't record or check anything.</p></div>
+      <div class="card"><div class="ico">📶</div><h3>Weak internet</h3><p>Even with power, the signal drops. A station app that needs the cloud stops at the moment the shift needs to be closed.</p></div>
+      <div class="card"><div class="ico">⚠️</div><h3>Gaps go unchecked</h3><p>Fuel that left the pump without a recorded sale, and cash that doesn't match, slip through when nobody can run the check.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="alt">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">Photo → numbers → fuel &amp; cash check → ask. The models read and explain. Plain code does every peso and liter of math.</p>
+    <ol class="steps">
+      <li><div class="t">Litrato</div><h3>📷 Photo</h3><p>Snap the pump's totalizer screen, a meter, a receipt or the shift closing slip.</p></li>
+      <li><div class="t">Numbers</div><h3>🔢 Numbers</h3><p>Apple Vision OCR reads the digits on the Mac in about 2 seconds. Code matches each number to its label. Staff can fix anything before saving.</p></li>
+      <li><div class="t">Fuel &amp; cash check</div><h3>✅ Check</h3><p>Code compares pump totals (closing − opening) with recorded sales, and expected cash with counted cash. Gaps over the tolerance turn red.</p></li>
+      <li><div class="t">Magtanong</div><h3>💬 Ask</h3><p>Staff ask in Tagalog or English, like “May kulang ba sa diesel?” Gemma 3 4B answers from the computed numbers only.</p></li>
+    </ol>
+    <div class="tech">
+      <span class="chip">Apple Vision OCR (on-device)</span>
+      <span class="chip">Gemma 3 4B via Ollama</span>
+      <span class="chip">SQLite</span>
+      <span class="chip">Python · Decimal math</span>
+      <span class="chip">Works with Wi-Fi off</span>
+      <span class="chip">Syncs when the internet is back</span>
+    </div>
+    <div class="grid2 results">
+      <div class="result"><div class="big">2.57 L unaccounted</div><p>Premium 3: the pump says 416.07 L dispensed, recorded sales are 413.5 L (0.62%, over the 0.5% tolerance). The pump readings come from real photos; the sales are sample data.</p><span class="src">Real pump photos · sample sales</span></div>
+      <div class="result"><div class="big">₱50.00 short</div><p>The shift closing slip is read and checked against the shift: expected cash ₱39,219.55, declared ₱39,169.55. Kulang ang pera sa kaha ng ₱50.00.</p><span class="src">Demo closing slip</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <h2>Demo video</h2>
+    <p class="sub">A short walkthrough of PumpLocal running on the MacBook Air with Wi-Fi off.</p>
+    <div id="video">
+      <!-- YOUTUBE_EMBED -->
+      <div class="ph"><div class="play" aria-hidden="true">▶</div><strong>Demo video coming soon</strong><span>The walkthrough will be embedded here.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="screens" class="alt">
+  <div class="wrap">
+    <h2>Screenshots</h2>
+    <p class="sub">The app's screens, captured from the latest build. Tap any image to see it full size.</p>
+    <div class="gallery feature">
+      <figure><a href="img/shots/flow_2b_pump_verdict_view.png"><img src="img/shots/flow_2b_pump_verdict_view.png" alt="Pump tab showing UNACCOUNTED FUEL: 2.57 L (0.62%) on Premium 3" loading="lazy"></a><figcaption><b>Pump check: unaccounted fuel</b>Premium 3 opening and closing totalizers vs. recorded sales.</figcaption></figure>
+      <figure><a href="img/shots/flow_4b_cash_verdict_view.png"><img src="img/shots/flow_4b_cash_verdict_view.png" alt="Cash tab showing SHORT ₱50.00 with the expected-cash breakdown" loading="lazy"></a><figcaption><b>Cash check: ₱50 short</b>Line-by-line expected cash, computed in code.</figcaption></figure>
+    </div>
+    <div class="gallery">
+      <figure><a href="img/shots/flow_1_photo_read.png"><img src="img/shots/flow_1_photo_read.png" alt="Photo tab after reading a meter photo" loading="lazy"></a><figcaption><b>Photo → numbers</b>A meter photo filled into an editable form.</figcaption></figure>
+      <figure><a href="img/shots/flow_2_pump_result.png"><img src="img/shots/flow_2_pump_result.png" alt="Pump tab full result" loading="lazy"></a><figcaption><b>Pump result</b>Pesos and liters, opening to closing.</figcaption></figure>
+      <figure><a href="img/shots/flow_3_cash_slip.png"><img src="img/shots/flow_3_cash_slip.png" alt="Scanned shift closing slip review table" loading="lazy"></a><figcaption><b>Closing slip scan</b>Every value read, new vs. already saved.</figcaption></figure>
+      <figure><a href="img/shots/flow_4_cash_result.png"><img src="img/shots/flow_4_cash_result.png" alt="Cash tab full result" loading="lazy"></a><figcaption><b>Cash result</b>Short/over with the pump-vs-sales summary.</figcaption></figure>
+      <figure><a href="img/shots/flow_5_ask.png"><img src="img/shots/flow_5_ask.png" alt="Ask tab answering a Tagalog question" loading="lazy"></a><figcaption><b>Ask in Tagalog</b>“May kulang ba?” answered with the real numbers.</figcaption></figure>
+      <figure><a href="img/shots/flow_6_shift.png"><img src="img/shots/flow_6_shift.png" alt="Shift tab with recorded sales" loading="lazy"></a><figcaption><b>Shift</b>The shift's sales, discounts and credit.</figcaption></figure>
+    </div>
+    <details class="more">
+      <summary>More screens: each tab on desktop</summary>
+      <div class="gallery">
+        <figure><a href="img/shots/desktop_1_photo.png"><img src="img/shots/desktop_1_photo.png" alt="Photo tab" loading="lazy"></a><figcaption><b>Photo</b>Litrato ng metro o resibo.</figcaption></figure>
+        <figure><a href="img/shots/desktop_2_sales.png"><img src="img/shots/desktop_2_sales.png" alt="Shift / sales tab" loading="lazy"></a><figcaption><b>Shift</b>Benta ngayong shift.</figcaption></figure>
+        <figure><a href="img/shots/desktop_3_pump.png"><img src="img/shots/desktop_3_pump.png" alt="Pump tab" loading="lazy"></a><figcaption><b>Pump</b>Metro ng pump.</figcaption></figure>
+        <figure><a href="img/shots/desktop_4_cash.png"><img src="img/shots/desktop_4_cash.png" alt="Cash tab" loading="lazy"></a><figcaption><b>Cash</b>Bilang ng pera.</figcaption></figure>
+        <figure><a href="img/shots/desktop_5_ask.png"><img src="img/shots/desktop_5_ask.png" alt="Ask tab" loading="lazy"></a><figcaption><b>Ask</b>Magtanong.</figcaption></figure>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="slides">
+  <div class="wrap">
+    <h2>Slides</h2>
+    <p class="sub">The five-slide pitch deck. <a href="slides.html">Open the full slides</a> (use ← → or click to move, F for fullscreen).</p>
+    <div class="slides">
+      <a href="slides.html#1"><img src="img/slides/slide_1.png" alt="Slide 1" loading="lazy"><span>1 · The problem</span></a>
+      <a href="slides.html#2"><img src="img/slides/slide_2.png" alt="Slide 2" loading="lazy"><span>2 · Why local AI?</span></a>
+      <a href="slides.html#3"><img src="img/slides/slide_3.png" alt="Slide 3" loading="lazy"><span>3 · At the station</span></a>
+      <a href="slides.html#4"><img src="img/slides/slide_4.png" alt="Slide 4" loading="lazy"><span>4 · What's next</span></a>
+      <a href="slides.html#5"><img src="img/slides/slide_5.png" alt="Slide 5" loading="lazy"><span>5 · Wi-Fi off</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="setup" class="alt setup">
+  <div class="wrap">
+    <h2>Station setup</h2>
+    <p class="sub">Small, cheap and able to ride out a brownout. Nothing in the shift check depends on the internet.</p>
+    <div class="grid2">
+      <div class="card"><span class="tag">Proposed</span><h3>🖥️ Mac mini + Wi-Fi router on one small UPS</h3><p>The Mac mini runs PumpLocal and the local models. Staff phones can reach it over the station's own Wi-Fi, so the network stays up even when the internet is down.</p>
+        <ul><li>One small UPS keeps both running through a brownout</li><li>Records queue locally and sync when the internet is back</li></ul></div>
+      <div class="card"><span class="tag">Also works</span><h3>💻 Laptop on battery + power bank for the router</h3><p>A MacBook Air runs on its own battery, and a power bank keeps the router alive.</p>
+        <ul><li>No extra hardware to buy</li><li>Same app, same offline checks</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="honest">
+  <div class="wrap">
+    <h2>Honest notes</h2>
+    <p class="sub">What's real, what's sample data, and who (or what) did the work.</p>
+    <div class="honest">
+      <h3>Data</h3>
+      <ul>
+        <li>The Premium 3 totalizer readings come from <strong>real pump photos</strong> from JCB Gas Station.</li>
+        <li>The <strong>sales are sample data</strong>, so the 2.57 L gap shows how the check works. It is not a real loss at the station.</li>
+        <li>The closing slip and other sample meters and receipts are demo material.</li>
+        <li>The screenshots on this page were captured on a Linux test machine, where Apple Vision can't run: OCR text recorded from the sample photos was replayed, and AI wording was in template (mock) mode. All the math shown is the app's real code.</li>
+      </ul>
+      <h3>AI disclosures</h3>
+      <ul>
+        <li><strong>Grok Bot</strong> (an AI coding assistant) built PumpLocal, writing the code, tests and docs under Johnny's direction.</li>
+        <li><strong>Claude</strong> was used only to install Ollama and for Mac cleanup. It wrote no PumpLocal code.</li>
+        <li>The <strong>demo video is voiced with ElevenLabs</strong>.</li>
+        <li>The full timeline, problems hit and AI usage are in <a href="https://github.com/bodegasjohnny-sketch/pumplocal/blob/main/BUILD_LOG.md">BUILD_LOG.md</a>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="links" class="alt">
+  <div class="wrap">
+    <h2>Links</h2>
+    <div class="links">
+      <a href="https://github.com/bodegasjohnny-sketch/pumplocal"><b>GitHub repo →</b><span>github.com/bodegasjohnny-sketch/pumplocal</span></a>
+      <a href="https://github.com/bodegasjohnny-sketch/pumplocal/blob/main/BUILD_LOG.md"><b>BUILD_LOG.md →</b><span>Timeline, problems hit and AI usage</span></a>
+      <a href="slides.html"><b>Slides →</b><span>The five-slide pitch deck</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Built by <a href="https://johnnybodegas.com">Johnny Bodegas</a> for AppBuildersPH Hackathon 2026.</div>
+    <div>JCB Gas Station · Sto. Niño, South Cotabato</div>
+  </div>
+</footer>
+
+</body>
+</html>
