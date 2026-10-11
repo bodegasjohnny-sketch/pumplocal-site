@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PumpLocal v2 Plan · Check your station anytime, from anywhere</title>
+<meta name="description" content="The PumpLocal v2 plan: random spot checks, phone-only, offline, for gas station owners who can't be at their station.">
+<meta name="theme-color" content="#0f2747">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
+<link rel="stylesheet" href="../style.css">
+<style>
+.status{display:inline-block;background:#ffcc33;color:#0f2747;font-weight:700;padding:4px 10px;border-radius:6px;font-size:.85rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #ddd;vertical-align:top}
+th{background:#0f2747;color:#fff}
+ol.steps-plain li,ul.plain li{margin:.5rem 0}
+.quote{border-left:4px solid #e63946;padding:.5rem 1rem;background:#fff6f6;font-style:italic}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Sections"><div class="wrap">
+<a class="brand" href="../">⛽ Pump<b>Local</b> v2</a>
+<ul>
+<li><a href="#problem">Owner's problem</a></li>
+<li><a href="#idea">Spot Check</a></li>
+<li><a href="#how">How it works</a></li>
+<li><a href="#roles">Who sees what</a></li>
+<li><a href="#learned">What we learned</a></li>
+<li><a href="#changes">v1 vs v2</a></li>
+<li><a href="#fueltrack">JCB app</a></li>
+<li><a href="#steps">Build steps</a></li>
+</ul></div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+<span class="eyebrow">Plan for review, not built yet</span>
+<h1>Pump<b>Local</b> v2</h1>
+<p class="tag">Check your station anytime, from anywhere.</p>
+<p class="lede">For gas station owners who can't be at the station every day. Ask your pump attendant to snap the meter, and in seconds you'll know whether fuel, sales and cash match. It works on a normal phone, with no computer at the station, even during a brownout or with weak signal.</p>
+<p><span class="status">Status: plan only. Nothing here is built until Johnny approves it.</span></p>
+</div></header>
+
+<section id="problem"><div class="wrap">
+<h2>The owner's problem</h2>
+<div class="grid3">
+<div class="card"><div class="ico">📍</div><h3>You're far away</h3><p>Many owners live in another city. Johnny runs JCB Gas Station in Sto. Niño, South Cotabato from Tagaytay, about 1,000 km away.</p></div>
+<div class="card"><div class="ico">🕔</div><h3>Checks happen too late</h3><p>Most stations only count at the end of a shift. Once a gap shows up, the fuel or cash is already gone and it's hard to tell when it happened.</p></div>
+<div class="card"><div class="ico">⚡</div><h3>Brownouts and weak signal</h3><p>Cloud apps stop working when the power or internet drops, which is exactly when nobody is watching the numbers.</p></div>
+</div>
+<p class="quote">"I want to check my station anytime I want. Just tell my pump boy to take a photo of the current reading, and see what's really happening."</p>
+</div></section>
+
+<section class="alt" id="idea"><div class="wrap">
+<h2>The v2 idea: random Spot Checks</h2>
+<p>The owner can ask for a check at any time of the day. Because the staff never know when the next request will come, the readings stay honest all day long, not just at closing time.</p>
+<div class="grid3">
+<div class="card"><div class="ico">📲</div><h3>Ask</h3><p>Tap "Spot check Pump 2" from your phone, wherever you are.</p></div>
+<div class="card"><div class="ico">📸</div><h3>Snap and confirm</h3><p>The attendant has 5 minutes to take a live photo of the meter, check the numbers the app read, and tap Confirm. Old gallery photos aren't accepted.</p></div>
+<div class="card"><div class="ico">🔒</div><h3>Only you know</h3><p>The app compares the reading with sales so far and sends the owner a green "matches" or a red "short by X liters." Staff never see the result.</p></div>
+</div>
+</div></section>
+
+<section id="how"><div class="wrap">
+<h2>How it works, step by step</h2>
+<ol class="steps-plain">
+<li><b>You ask for a check.</b> The attendant's phone gets a notice.</li>
+<li><b>The attendant photographs the pump meter</b> with the app's camera only. The photo is stamped with the time and place.</li>
+<li><b>The phone reads the numbers itself.</b> Reading a meter photo needs no internet, so it works in a weak-signal area.</li>
+<li><b>The attendant checks the numbers the app read</b> against the meter, fixes any misread digit, and taps Confirm. Their screen only says "Saved, thank you."</li>
+<li><b>The app does the math with fixed rules, not AI guesses:</b> liters on the meter now minus the opening reading, compared with liters sold so far.</li>
+<li><b>The result is sent only to you, the owner,</b> right away if there's signal, or as soon as signal comes back. Nothing is lost while offline.</li>
+<li><b>Your phone's built-in AI explains it in Tagalog or English</b>, for example: "Pump 2 is short 3.1 L between 2 PM and 5 PM. This is the third time this week on the afternoon shift."</li>
+</ol>
+<h3>Which device does what</h3>
+<table>
+<tr><th>Device</th><th>What it does</th><th>Needs internet?</th></tr>
+<tr><td>Attendant's phone (any cheap Android)</td><td>Takes the live photo and reads the meter numbers</td><td>No</td></tr>
+<tr><td>Owner's phone</td><td>Runs a small AI model for alerts, patterns and Tagalog summaries</td><td>No, only to receive new checks</td></tr>
+<tr><td>JCB station app</td><td>Keeps the history, the dashboard and the reports</td><td>Only for syncing</td></tr>
+</table>
+<p>No Mac, no mini PC and no UPS needed at the station anymore.</p>
+</div></section>
+
+<section class="alt" id="roles"><div class="wrap">
+<h2>Staff only take photos. Only the owner sees mismatches.</h2>
+<table>
+<tr><th>Role</th><th>What they can do</th><th>What they see</th></tr>
+<tr><td>Pump attendant / cashier</td><td>Take the live photo, check that the numbers the app read match the meter, fix a misread digit, then tap Confirm</td><td>Only the numbers read from their own photo, then "Saved, thank you." No match result, no shortage, no red flag.</td></tr>
+<tr><td>Owner</td><td>Ask for checks, see every result, the history and the AI summary</td><td>Everything: matches, shortages by pump, shift and time, and patterns over time</td></tr>
+</table>
+<p>The staff's only job is to confirm the photo was read correctly. They never see whether the station is short, so they can't change their answers to hide a gap. The comparison happens after they save and goes only to the owner.</p>
+</div></section>
+
+<section id="learned"><div class="wrap">
+<h2>What we learned from the hackathon</h2>
+<p>We studied the 9 winners and all 281 submitted projects. PumpLocal was the only gas station project, so the niche is wide open. Here's what the winners did better:</p>
+<div class="grid2">
+<div class="card"><h3>1. The AI did the main job</h3><p>In v1 the AI only read photos and answered questions. In v2 it also spots patterns over many checks and writes the owner's daily summary.</p></div>
+<div class="card"><h3>2. It ran on a phone</h3><p>Several winners ran their AI right on a phone in airplane mode. v2 does the same, so there's no laptop to carry or set up.</p></div>
+<div class="card"><h3>3. They talked about privacy</h3><p>Sales, cash and staff records are business secrets. In v2 they stay on your phones, not on a cloud company's servers.</p></div>
+<div class="card"><h3>4. They showed it's big</h3><p>The winners showed how many people had the problem. v2 is pitched to every remote station owner, not only JCB, with JCB as the real-world proof.</p></div>
+</div>
+</div></section>
+
+<section class="alt" id="changes"><div class="wrap">
+<h2>v1 compared with v2</h2>
+<table>
+<tr><th></th><th>v1 (hackathon)</th><th>v2 (plan)</th></tr>
+<tr><td>Where it runs</td><td>MacBook Air at the station</td><td>Staff and owner phones</td></tr>
+<tr><td>When checks happen</td><td>End of shift</td><td>Anytime, at random, when the owner asks</td></tr>
+<tr><td>Who it's for</td><td>Staff closing the shift</td><td>Owners managing from far away</td></tr>
+<tr><td>Who sees results</td><td>Whoever uses the laptop</td><td>Only the owner. Staff just confirm readings.</td></tr>
+<tr><td>Photo proof</td><td>Any uploaded photo</td><td>Live camera only, with time and place stamp</td></tr>
+<tr><td>AI's job</td><td>Read photos, answer questions</td><td>Read photos, find patterns, warn early, daily Tagalog summary</td></tr>
+<tr><td>Brownouts</td><td>Needed a UPS for the Mac and router</td><td>Phones have their own batteries</td></tr>
+<tr><td>History</td><td>Stays on one laptop</td><td>Syncs to the JCB station app dashboard</td></tr>
+</table>
+</div></section>
+
+<section id="fueltrack"><div class="wrap">
+<h2>Can this go into the real JCB station app?</h2>
+<p><b>Yes.</b> v2 is planned as a feature of the JCB station app (jcbgas-station.com), not as a separate app. That app already keeps your pumps, shifts and sales, so the Spot Check results land next to the numbers you already use.</p>
+<ul class="plain">
+<li>A new "Spot Check" button for the owner, and a photo-and-confirm screen for staff.</li>
+<li>Staff accounts can only upload and confirm. Results and shortages are visible to owner accounts only.</li>
+<li>The meter reading and the matching math reuse what we built and tested in PumpLocal.</li>
+<li>Results show up on your dashboard as a timeline: every check and every red flag, by pump and by shift.</li>
+<li>It's added through the normal safe process: built on a separate copy first, tested, then switched on only after you approve.</li>
+</ul>
+</div></section>
+
+<section class="alt" id="steps"><div class="wrap">
+<h2>Build steps, after your approval</h2>
+<ol class="steps-plain">
+<li><b>Step 1, Spot Check in the JCB app:</b> owner request, live-camera photo, a staff confirm screen that shows no results, owner-only match results and history.</li>
+<li><b>Step 2, works offline:</b> readings are saved on the phone during brownouts or no signal and sent automatically later.</li>
+<li><b>Step 3, AI on the owner's phone:</b> pattern warnings and a daily Tagalog summary.</li>
+<li><b>Step 4, test at JCB Gas Station</b> for 2 weeks with real attendants, and measure how accurate the readings are.</li>
+<li><b>Step 5, offer it to other owners</b>, with JCB's real results as proof.</li>
+</ol>
+<p><a href="../">← Back to PumpLocal v1 showcase</a></p>
+</div></section>
+</body>
+</html>
